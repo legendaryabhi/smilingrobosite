@@ -197,19 +197,20 @@ export default function Projects() {
                   required
                 />
               </div>
-              <div className="flex flex-col sm:flex-row sm:gap-4">
-                <div className="mb-4 sm:w-1/2">
+              
+                <div className="mb-4 ">
                   <label className="block text-white">Subtitle</label>
-                  <input
-                    type="text"
+                  <textarea
+                    
                     name="subtitle"
                     value={newProject.subtitle}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
                     required
+                    rows="4"
                   />
                 </div>
-                <div className="mb-4 sm:w-1/2">
+                <div className="mb-4 ">
                   <label className="block text-white">Tags</label>
                   <input
                     type="text"
@@ -219,7 +220,7 @@ export default function Projects() {
                     className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
                     required
                   />
-                </div>
+                
               </div>
               <div className="mb-4">
                 <label className="block text-white">Detailed Description</label>

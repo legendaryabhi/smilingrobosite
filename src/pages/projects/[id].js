@@ -9,7 +9,11 @@ import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { FaRobot } from "react-icons/fa";
 import "../../app/globals.css";
-import ProDesc from '../../components/prodesc/prodesc';
+
+import ReactMarkdown from 'react-markdown';
+import remarkHtml from 'remark-html';
+import remarkGfm from 'remark-gfm';
+import './markdown.css'
 
 export default function ProjectDetail() {
   const router = useRouter();
@@ -204,7 +208,11 @@ export default function ProjectDetail() {
       
       <div className="p-8">
       
-      <ProDesc markdownContent={project.description} />
+      <div className="markdown-body">
+      <ReactMarkdown remarkPlugins={[remarkHtml, remarkGfm]}>
+        {project.description}
+      </ReactMarkdown>
+    </div>
       </div>
 
       <div className="flex flex-col items-center">
