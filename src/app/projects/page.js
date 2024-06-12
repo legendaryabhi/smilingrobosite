@@ -26,7 +26,7 @@ export default function Projects() {
   });
   const [uploadProgress, setUploadProgress] = useState(0);
   const [user, setUser] = useState(null);
-  const [userName, setUserName] = useState("user");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -40,8 +40,19 @@ export default function Projects() {
       setProjects(projectList);
     };
 
-    
-    
+    const fetchUserName = async (uid) => {
+      try {
+        const userDocRef = doc(db, "users", uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          setUserName(userDocSnap.data().name);
+        } else {
+          console.log("No such user document!");
+        }
+      } catch (error) {
+        console.error("Error fetching user name:", error);
+      }
+    };
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -80,7 +91,7 @@ export default function Projects() {
         description: newProject.description,
         tags: newProject.tags,
         timestamp: new Date(),
-        userName: userName, // Include user's name
+        userName: userName, // Ensure user's name is included
         userId: user.uid,   // Include user's ID
       });
 
@@ -99,34 +110,36 @@ export default function Projects() {
           },
           async () => {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            await updateDoc(docRef, { url: downloadURL });
+            await updateDoc(doc(db, "projects", docRef.id), { url: downloadURL });
             setUploadProgress(0);
             setNewProject({ title: "", subtitle: "", description: "", tags: "", file: null });
             setIsModalOpen(false);
             // Refresh projects
+            const projectsCollection = collection(db, "projects");
+            const projectsQuery = query(projectsCollection, orderBy("timestamp", "desc"), limit());
+            const projectSnapshot = await getDocs(projectsQuery);
+            const projectList = projectSnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setProjects(projectList);
           }
         );
       } else {
         setNewProject({ title: "", subtitle: "", description: "", tags: "", file: null });
         setIsModalOpen(false);
-         // Refresh projects
+        // Refresh projects
+        const projectsCollection = collection(db, "projects");
+        const projectsQuery = query(projectsCollection, orderBy("timestamp", "desc"), limit());
+        const projectSnapshot = await getDocs(projectsQuery);
+        const projectList = projectSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProjects(projectList);
       }
     } catch (error) {
       console.error("Error adding document: ", error);
-    }
-  };
-  
-  const fetchUserName = async (user) => {
-    try {
-      const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
-      if (userDocSnap.exists()) {
-        setUserName(userDocSnap.data().name);
-      } else {
-        console.log("No such user document!");
-      }
-    } catch (error) {
-      console.error("Error fetching user name:", error);
     }
   };
 
@@ -169,98 +182,96 @@ export default function Projects() {
         </div>
       </div>
       {isModalOpen && (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-    <div className="p-4 rounded-lg max-w-md w-full bg-gray-900 overflow-y-auto max-h-screen">
-      <h2 className="text-2xl mb-4 text-white">Upload Project</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-white">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={newProject.title}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
-            required
-          />
-        </div>
-        {/* Other input fields */}
-        <div className="flex flex-col sm:flex-row sm:gap-4">
-          <div className="mb-4 sm:w-1/2">
-            <label className="block text-white">Subtitle</label>
-            <input
-              type="text"
-              name="subtitle"
-              value={newProject.subtitle}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
-              required
-            />
-          </div>
-          <div className="mb-4 sm:w-1/2">
-            <label className="block text-white">Tags</label>
-            <input
-              type="text"
-              name="tags"
-              value={newProject.tags}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label className="block text-white">Detailed Description</label>
-          <label className="block text-gray-300">Use MarkDown for good representation</label>
-          <textarea
-            name="description"
-            value={newProject.description}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
-            rows="8"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-white">File</label>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
-          />
-        </div>
-        {uploadProgress > 0 && (
-          <div className="mb-4">
-            <div className="w-full bg-gray-200 rounded-full">
-              <div
-                className="bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              >
-                {uploadProgress.toFixed(2)}%
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="p-4 rounded-lg max-w-md w-full bg-gray-900 overflow-y-auto max-h-screen">
+            <h2 className="text-2xl mb-4 text-white">Upload Project</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-white">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={newProject.title}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
+                  required
+                />
               </div>
-            </div>
+              <div className="flex flex-col sm:flex-row sm:gap-4">
+                <div className="mb-4 sm:w-1/2">
+                  <label className="block text-white">Subtitle</label>
+                  <input
+                    type="text"
+                    name="subtitle"
+                    value={newProject.subtitle}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
+                    required
+                  />
+                </div>
+                <div className="mb-4 sm:w-1/2">
+                  <label className="block text-white">Tags</label>
+                  <input
+                    type="text"
+                    name="tags"
+                    value={newProject.tags}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mb-4">
+                <label className="block text-white">Detailed Description</label>
+                <label className="block text-gray-300">Use MarkDown for good representation</label>
+                <textarea
+                  name="description"
+                  value={newProject.description}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
+                  rows="8"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-white">File</label>
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-2 bg-black text-white"
+                />
+              </div>
+              {uploadProgress > 0 && (
+                <div className="mb-4">
+                  <div className="w-full bg-gray-200 rounded-full">
+                    <div
+                      className="bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                      style={{ width: `${uploadProgress}%` }}
+                    >
+                      {uploadProgress.toFixed(2)}%
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                >
+                  Upload
+                </button>
+              </div>
+            </form>
           </div>
-        )}
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
-            onClick={() => setIsModalOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
-          >
-            Upload
-          </button>
         </div>
-      </form>
-    </div>
-  </div>
-)}
-
+      )}
     </main>
   );
 }

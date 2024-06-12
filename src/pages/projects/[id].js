@@ -2,16 +2,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
-import ReactMarkdown from "react-markdown";
-import remarkHtml from "remark-html";
-import remarkGfm from "remark-gfm"; // Adding GitHub flavored markdown support
+import { db } from "../../../firebaseConfig"// Adding GitHub flavored markdown support
 import Link from "next/link";
 import Logo from "../../components/header/logo";
 import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { FaRobot } from "react-icons/fa";
 import "../../app/globals.css";
+import ProDesc from '../../components/prodesc/prodesc';
 
 export default function ProjectDetail() {
   const router = useRouter();
@@ -55,6 +53,8 @@ export default function ProjectDetail() {
   if (!project) {
     return <div>Project not found</div>;
   }
+
+  
 
   return (
     <div>
@@ -201,10 +201,10 @@ export default function ProjectDetail() {
         </h2>
       </div>
       
-      <div className="p-8 font-mono">
-        <ReactMarkdown remarkPlugins={[remarkHtml, remarkGfm]}>
-          {project.description}
-        </ReactMarkdown>
+      
+      <div className="p-8">
+      
+      <ProDesc markdownContent={project.description} />
       </div>
 
       <div className="flex flex-col items-center">
