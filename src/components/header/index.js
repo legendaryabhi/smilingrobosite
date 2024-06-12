@@ -58,7 +58,7 @@ const Header = () => {
           }}
         >
           <FaBookOpen className="mr-2" />
-          <Link href="https://legendaryabhi.github.io/smilingrobo/">Docs</Link>
+          <Link href="https://smilingrobo.github.io/docs/">Docs</Link>
         </div>
         <div
           style={{
