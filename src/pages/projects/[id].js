@@ -1,53 +1,59 @@
-"use client";
+'use client'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import Logo from "../../components/header/logo";
-import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkHtml from "remark-html";
 import remarkGfm from "remark-gfm"; // Adding GitHub flavored markdown support
-
+import "../../app/globals.css";
+import Link from "next/link";
 import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { FaRobot } from "react-icons/fa";
 
-import "../../app/globals.css";
+import Logo from "../../components/header/logo";
 
-export default function ProjectDetail() {
+export async function getStaticPaths() {
+  const projectsCollection = collection(db, "projects");
+  const projectSnapshot = await getDocs(projectsCollection);
+  const paths = projectSnapshot.docs.map(doc => ({
+    params: { id: doc.id }
+  }));
+
+  return { paths, fallback: false }; // Use fallback: false for static export
+}
+
+export async function getStaticProps({ params }) {
+  const projectDoc = doc(db, "projects", params.id);
+  const projectSnapshot = await getDoc(projectDoc);
+  let project = null;
+
+  if (projectSnapshot.exists()) {
+    project = { id: projectSnapshot.id, ...projectSnapshot.data() };
+
+    // Convert Firestore timestamp to a string for serialization
+    if (project.timestamp && project.timestamp.toDate) {
+      project.timestamp = project.timestamp.toDate().toISOString();
+    }
+  }
+
+  return {
+    props: { project },
+  };
+}
+
+export default function ProjectDetail({ project }) {
   const router = useRouter();
-  const { id } = router.query;
-  const [project, setProject] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const projectDoc = doc(db, "projects", id);
-        const projectSnapshot = await getDoc(projectDoc);
-        if (projectSnapshot.exists()) {
-          setProject({ id: projectSnapshot.id, ...projectSnapshot.data() });
-          console.log("Fetched project description: ", projectSnapshot.data().description);
-        } else {
-          console.error("Project not found");
-        }
-      } catch (error) {
-        console.error("Error fetching project:", error);
-      }
-    };
-
-    if (id) {
-      fetchProject();
-    }
-  }, [id]);
 
   if (!project) {
-    return <div>Loading...</div>;
+    return <div>Project not found</div>;
   }
 
   return (

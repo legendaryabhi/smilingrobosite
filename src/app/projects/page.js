@@ -26,7 +26,7 @@ export default function Projects() {
   });
   const [uploadProgress, setUploadProgress] = useState(0);
   const [user, setUser] = useState(null);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("user");
 
   useEffect(() => {
     const fetchProjects = async () => {
