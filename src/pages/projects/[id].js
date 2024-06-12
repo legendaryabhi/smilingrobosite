@@ -6,7 +6,7 @@ import { db } from "../../../firebaseConfig";
 import ReactMarkdown from "react-markdown";
 import remarkHtml from "remark-html";
 import remarkGfm from "remark-gfm"; // Adding GitHub flavored markdown support
-
+import Link from "next/link";
 import Logo from "../../components/header/logo";
 import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
@@ -18,6 +18,11 @@ export default function ProjectDetail() {
   const { id } = router.query;
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const fetchProject = async () => {
