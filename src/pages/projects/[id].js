@@ -8,7 +8,6 @@ import remarkHtml from "remark-html";
 import remarkGfm from "remark-gfm"; // Adding GitHub flavored markdown support
 
 import Logo from "./logo";
-import { useState } from "react";
 import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { FaRobot } from "react-icons/fa";
