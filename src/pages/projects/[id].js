@@ -1,56 +1,47 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import ReactMarkdown from "react-markdown";
 import remarkHtml from "remark-html";
 import remarkGfm from "remark-gfm"; // Adding GitHub flavored markdown support
+
 import "../../app/globals.css";
-import Link from "next/link";
-import { FaBookOpen } from "react-icons/fa";
-import { IoPerson } from "react-icons/io5";
-import { FaRobot } from "react-icons/fa";
 
-import Logo from "../../components/header/logo";
-
-export async function getStaticPaths() {
-  const projectsCollection = collection(db, "projects");
-  const projectSnapshot = await getDocs(projectsCollection);
-  const paths = projectSnapshot.docs.map(doc => ({
-    params: { id: doc.id }
-  }));
-
-  return { paths, fallback: false }; // Use fallback: false for static export
-}
-
-export async function getStaticProps({ params }) {
-  const projectDoc = doc(db, "projects", params.id);
-  const projectSnapshot = await getDoc(projectDoc);
-  let project = null;
-
-  if (projectSnapshot.exists()) {
-    project = { id: projectSnapshot.id, ...projectSnapshot.data() };
-
-    // Convert Firestore timestamp to a string for serialization
-    if (project.timestamp && project.timestamp.toDate) {
-      project.timestamp = project.timestamp.toDate().toISOString();
-    }
-  }
-
-  return {
-    props: { project },
-  };
-}
-
-export default function ProjectDetail({ project }) {
+export default function ProjectDetail() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const { id } = router.query;
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const projectDoc = doc(db, "projects", id);
+        const projectSnapshot = await getDoc(projectDoc);
+        if (projectSnapshot.exists()) {
+          const projectData = projectSnapshot.data();
+          projectData.timestamp = projectData.timestamp.toDate().toISOString();
+          setProject({ id: projectSnapshot.id, ...projectData });
+        } else {
+          console.error("Project not found");
+        }
+      } catch (error) {
+        console.error("Error fetching project:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    if (id) {
+      fetchProject();
+    }
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!project) {
     return <div>Project not found</div>;
