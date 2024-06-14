@@ -201,7 +201,6 @@ export default function Projects() {
                 <div className="mb-4 ">
                   <label className="block text-white">Subtitle</label>
                   <textarea
-                    
                     name="subtitle"
                     value={newProject.subtitle}
                     onChange={handleInputChange}

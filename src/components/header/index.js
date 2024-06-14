@@ -109,7 +109,7 @@ const Header = () => {
             >
               <FaBookOpen className="mr-2" />
               <Link
-              href="https://legendaryabhi.github.io/smilingrobo/"
+              href="https://smilingrobo.github.io/docs/"
               legacyBehavior
             >
                 <a
@@ -135,7 +135,7 @@ const Header = () => {
                   className="text-white-700 hover:text-gray-900"
                   onClick={toggleMenu}
                 >
-                  Docs
+                  Profile
                 </a>
               </Link>
             </div>
