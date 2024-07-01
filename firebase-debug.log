@@ -1,0 +1,50 @@
+[debug] [2024-06-15T05:58:59.498Z] ----------------------------------------------------------------------
+[debug] [2024-06-15T05:58:59.503Z] Command:       D:\other\Download\roboface\next\my-app\firebase-tools-instant-win.exe C:\Users\Admin\.cache\firebase\tools\lib\node_modules\firebase-tools\lib\bin\firebase deploy
+[debug] [2024-06-15T05:58:59.503Z] CLI Version:   13.2.1
+[debug] [2024-06-15T05:58:59.504Z] Platform:      win32
+[debug] [2024-06-15T05:58:59.504Z] Node Version:  v18.5.0
+[debug] [2024-06-15T05:58:59.553Z] Time:          Sat Jun 15 2024 11:28:59 GMT+0530 (India Standard Time)
+[debug] [2024-06-15T05:58:59.554Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-15T05:58:59.560Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-06-15T05:58:59.766Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-15T05:58:59.767Z] > authorizing via signed-in user (abhinavsharma8750@gmail.com)
+[debug] [2024-06-15T05:58:59.767Z] [iam] checking project smiling-robo for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-06-15T05:58:59.768Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smiling-robo:testIamPermissions [none]
+[debug] [2024-06-15T05:58:59.769Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smiling-robo:testIamPermissions x-goog-quota-user=projects/smiling-robo
+[debug] [2024-06-15T05:58:59.769Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smiling-robo:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-06-15T05:59:00.374Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-06-15T05:59:00.374Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-06-15T05:59:01.275Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smiling-robo:testIamPermissions 200
+[debug] [2024-06-15T05:59:01.276Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smiling-robo:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-06-15T05:59:01.277Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo [none]
+[debug] [2024-06-15T05:59:01.723Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo 200
+[debug] [2024-06-15T05:59:01.724Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo {"projectId":"smiling-robo","projectNumber":"758363252100","displayName":"smilingrobo","name":"projects/smiling-robo","resources":{"hostingSite":"smiling-robo","storageBucket":"smiling-robo.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_0bdfc3d1-6643-4dbd-af08-521781d872e3"}
+[debug] [2024-06-15T05:59:08.812Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites pageToken=&pageSize=10
+[debug] [2024-06-15T05:59:09.952Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites 200
+[debug] [2024-06-15T05:59:09.952Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites {"sites":[{"name":"projects/smiling-robo/sites/smiling-robo","defaultUrl":"https://smiling-robo.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-06-15T05:59:09.953Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites 
+[debug] [2024-06-15T05:59:11.062Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites 200
+[debug] [2024-06-15T05:59:11.062Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites {"sites":[{"name":"projects/smiling-robo/sites/smiling-robo","defaultUrl":"https://smiling-robo.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2024-06-15T05:59:11.062Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo/webApps/-/config [none]
+[debug] [2024-06-15T05:59:12.523Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo/webApps/-/config 200
+[debug] [2024-06-15T05:59:12.524Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smiling-robo/webApps/-/config {"projectId":"smiling-robo","appId":"1:758363252100:web:5a6cd1c4b12038708ca9d1","storageBucket":"smiling-robo.appspot.com","locationId":"us-central","apiKey":"AIzaSyDwEdHjp2WOm9cxb7LxX5QCuVZ0qefIgHI","authDomain":"smiling-robo.firebaseapp.com","messagingSenderId":"758363252100","measurementId":"G-LWXVTBVDKC"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 14.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-06-15T05:59:24.659Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites/smiling-robo [none]
+[debug] [2024-06-15T05:59:25.688Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites/smiling-robo 200
+[debug] [2024-06-15T05:59:25.688Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/smiling-robo/sites/smiling-robo {"name":"projects/smiling-robo/sites/smiling-robo","defaultUrl":"https://smiling-robo.web.app","type":"DEFAULT_SITE"}
+[info] You are using Node.js 18.5.0. For Next.js, Node.js version >= v18.17.0 is required.
+
+[debug] [2024-06-15T05:59:27.650Z] Error: ENOENT: no such file or directory, open 'D:\other\Download\roboface\next\my-app\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.
