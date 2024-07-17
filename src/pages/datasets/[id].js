@@ -68,7 +68,7 @@ export default function datasetsDetail({ datasets }) {
  
 </div>
 
-      <div className="p-8">
+      <div className="lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-4">
         <div className="markdown-body text-white">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
