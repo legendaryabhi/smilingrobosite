@@ -38,7 +38,7 @@ export default function Projects() {
     url: "",
     userName: "",
     description: "",
-    website: "",
+    documentation: "",
   });
   const [message, setMessage] = useState("");
 
@@ -98,7 +98,7 @@ export default function Projects() {
         url: "",
         userName: "",
         description: "",
-        website: "",
+        documentation: "",
       });
       setFormVisible(false);
     } catch (error) {
@@ -263,12 +263,12 @@ export default function Projects() {
               />
             </div>
             <div>
-              <label className="block text-white">Official Website</label>
+              <label className="block text-white">Documentation</label>
               <input
                 type="url"
                 placeholder="https://www.poppy-project.org/en/robots/poppy-humanoid/"
-                name="website"
-                value={formData.website}
+                name="documentation"
+                value={formData.documentation}
                 style={{ backgroundColor: "#020011" }}
                 onChange={handleChange}
                 className="w-full p-2 rounded"

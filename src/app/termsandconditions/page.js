@@ -20,6 +20,11 @@ export default function Terms() {
             All projects listed on SmilingRobo are created by their respective owners. We feature these projects because they are open-source, and we provide them for the benefit of the community. Each project remains the intellectual property of its creator, and appropriate credit is given to the authors.
           </p>
         </section>
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Ownership and Attribution</h2>
+          <p className="text-gray-700">
+            All projects listed on SmilingRobo are uploaded by users must agree to the terms and conditions of the platform or they can be deleted. </p>
+        </section>
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">Open-Source Licensing</h2>
@@ -59,7 +64,7 @@ export default function Terms() {
         <section>
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">Contact Us</h2>
           <p className="text-gray-700">
-            If you have any questions or concerns about these terms and conditions, please contact us at <a href="mailto:smilingrobo@gmail.com" className="text-blue-600 hover:underline">smilingrobo@gmail.com</a>.
+            If you have any questions or concerns about these terms and conditions, please contact us at <a href="mailto:support@smilingrobo.com" className="text-blue-600 hover:underline">smilingrobo@gmail.com</a>.
           </p>
         </section>
       </div>
