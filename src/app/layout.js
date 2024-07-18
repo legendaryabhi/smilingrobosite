@@ -12,23 +12,11 @@ export const metadata = {
   openGraph: {
     title: 'SmilingRobo',
     description: "Opensource Robotics Platform with opensource tools and resources. We're on a journey to advance and democratize robotics through opensource.",
-    url: "https://smilingrobo.necrozmalabs.com/",
+    url: "https://www.smilingrobo.com/",
     siteName: 'SmilingRobo',
     type:'website',
     locale: "en_US",
     type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
   twitter: {
     card: "summary_large_image",
