@@ -65,6 +65,7 @@ export default function Home() {
       const datasetsQuery = query(
         datasetsCollection,
         where("trending", "==", "yes"),
+        where("done", "==", "yes"),
         orderBy("timestamp", "desc"),
         limit(5)
       );

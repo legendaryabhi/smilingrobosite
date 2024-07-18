@@ -5,6 +5,7 @@ import {
   query,
   orderBy,
   getDocs,
+  where,
   doc,
   getDoc,
   addDoc,
@@ -49,7 +50,7 @@ export default function Datasets() {
   useEffect(() => {
     const fetchDatasets = async () => {
       const datasetsCollection = collection(db, "datasets");
-      const datasetsQuery = query(datasetsCollection, orderBy("timestamp", "desc"));
+      const datasetsQuery = query(datasetsCollection,where("done", "==", "yes"), orderBy("timestamp", "desc"));
       const datasetsSnapshot = await getDocs(datasetsQuery);
       const datasetsList = datasetsSnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -104,6 +105,7 @@ export default function Datasets() {
           timestamp: new Date(),
           downloads: 0,
           trending: 'no',
+          done:'',
         });
         setMessage("Your dataset has been submitted and will be live after verifying.");
         setFormData({
@@ -285,7 +287,7 @@ export default function Datasets() {
       )}
       {message && <p className="text-green-500 mb-4">{message}</p>}
       <div className="flex overflow-x-auto space-x-4 mb-8">
-        {["All", "Humanoid-Dataset", "Drone-Dataset"].map((category) => (
+        {["All", "Humanoid-Dataset", "Drone-Dataset", "Driving-Dataset"].map((category) => (
           <button
             key={category}
             className={`px-4 py-2 rounded whitespace-nowrap ${
