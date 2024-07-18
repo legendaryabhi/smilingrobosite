@@ -8,17 +8,18 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db , auth} from "../../firebaseConfig";
 import Link from "next/link";
 import { FaGithub, FaDownload } from "react-icons/fa";
 import { Circles } from "react-loader-spinner";
 import { IoIosTrendingUp } from "react-icons/io";
+import { onAuthStateChanged } from "firebase/auth";
 import { GiOpenChest } from "react-icons/gi";
 import Image from "next/image";
 import { FaCircleStop } from "react-icons/fa6";
 import Logo from "@/components/header/logo";
-import img from '../../public/images/img.png';
-
+import img from "../../public/images/img.png";
+import img2 from "../../public/images/img2.png";
 
 function truncateString(str, numCharacters) {
   if (str.length <= numCharacters) {
@@ -33,6 +34,8 @@ export default function Home() {
   const [datasets, setDatasets] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [loadingDatasets, setLoadingDatasets] = useState(true);
+  const [user, setUser] = useState(null);
+  const [showbanner, setShowbanner] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -76,6 +79,17 @@ export default function Home() {
     fetchDatasets();
   }, []);
 
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+      setShowbanner(false);
+    } else {
+      setShowbanner(true);
+    }
+    return () => unsubscribe();
+
+  });
+
   const isLoading = loadingProjects || loadingDatasets;
 
   return (
@@ -92,9 +106,40 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-center w-full mb-12">
+        {showbanner && (
+        
+      
+        <div className="p-8  mt-12 mb-12 text-white rounded-lg bg-slate-950  transition-transform transform hover:scale-105 shadow-lg flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-col items-center space-y-2 w-full sm:w-1/3">
+              <Logo className="h-10 w-10 mb-2 align-start" />
+
+              <h2 className="text-white text-3xl">
+                Building Open Source Robotics
+              </h2>
+              <p  className="text-gray-300 text-base">Opensource Robotics Platform with opensource tools and resources. We're on a journey to advance and democratize robotics through opensource.</p>
+              <Link legacyBehavior href="/login" passHref>
+                <a className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                  Login Now
+                </a>
+              </Link>
+            </div>
+
+            <div className="w-full sm:w-2/3 mt-4">
+              <Image
+                src={img2}
+                alt="SmilingRobo"
+                width={1000}
+                height={800}
+                className="rounded-lg transform rotate-6"
+              />
+            </div>
+          </div>
+          )}
+
+          <div className="flex items-center justify-center w-full mt-12 mb-12">
             <div className="flex-1 border-t border-gray-300"></div>
             <div className="flex items-center px-4">
+              
               {/* <Logo className="h-8 w-8 mr-2" /> Adjust the className to fit your logo size */}
               <h2 className="text-3xl font-bold text-white text-center">
                 Trending on SmilingRobo
@@ -203,7 +248,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center mb-8">
-            <GiOpenChest className="items-center h-8 w-8" />
+            <GiOpenChest className="items-center h-16 w-16" />
             <h2 className="text-3xl text-white text-center">
               SmilingRobo Open Source
             </h2>
@@ -227,27 +272,30 @@ export default function Home() {
           </Link>
 
           <div className="p-8  mt-40 text-white rounded-lg bg-slate-950  transition-transform transform hover:scale-105 shadow-lg flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-      <div className="flex flex-col items-center space-y-2 w-full sm:w-1/3">
-        <Logo className="h-10 w-10 mb-2 align-start" /> 
-        
-        <p className="text-white text-3xl">Open Source Robotics Platform</p>
-        <Link legacyBehavior href="/login" passHref>
-          <a className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
-            Login Now to Contribute
-          </a>
-        </Link>
-      </div>
+          <div className="w-full sm:w-2/3 mb-4">
+              <Image
+                src={img}
+                alt="SmilingRobo"
+                width={1000}
+                height={800}
+                className="rounded-lg transform -rotate-6"
+              />
+            </div>
+            <div className="flex flex-col items-center space-y-2 w-full sm:w-1/3">
+              <Logo className="h-10 w-10 mb-2 align-start" />
 
-      <div className="w-full sm:w-2/3">
-        <Image 
-          src={img}
-          alt="SmilingRobo"
-          width={1000}
-          height={800}
-          className="rounded-lg transform rotate-6"
-        />
-      </div>
-    </div>
+              <p className="text-white text-3xl">
+                Documentation to help you
+              </p>
+              <Link legacyBehavior href="https://smilingrobo.github.io/docs/" target="_blank" passHref>
+                <a className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                  Read Docs
+                </a>
+              </Link>
+            </div>
+
+            
+          </div>
         </>
       )}
     </main>

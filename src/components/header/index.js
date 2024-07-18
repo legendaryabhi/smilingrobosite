@@ -6,6 +6,7 @@ import { FaBookOpen } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { FaRobot } from "react-icons/fa";
 import { MdOutlineDataset } from "react-icons/md";
+import { MdDashboard } from "react-icons/md";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,50 +42,76 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <nav className="hidden sm:flex space-x-4 ml-auto">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "row",
-            color:"white"
-          }}
-        >
-          <FaRobot className="mr-2" />
-          <Link href="/projects">Projects</Link>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "row",
-            color:"white"
-          }}
-        >
-          <MdOutlineDataset className="mr-2" />
-          <Link href="/datasets">Datasets</Link>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "row",
-            color:"white"
-          }}
-        >
-          <FaBookOpen className="mr-2" />
-          <Link href="https://smilingrobo.github.io/docs/">Docs</Link>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "row",
-            color:"white"
-          }}
-        >
-          <IoPerson className="mr-2" />
-          <Link href="/profile">Profile</Link>
-        </div>
+        <Link href="/">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              color: "white",
+            }}
+            className="hover:scale-105"
+          >
+            <MdDashboard className="mr-2 " />
+            Home
+          </div>
+        </Link>
+        <Link href="/projects">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              color: "white",
+            }}
+            className="hover:scale-105"
+          >
+            <FaRobot className="mr-2 " />
+            Projects
+          </div>
+        </Link>
+        <Link href="/datasets">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              color: "white",
+            }}
+            className="hover:scale-105"
+          >
+            <MdOutlineDataset className="mr-2" />
+            Datasets
+          </div>
+        </Link>
+        <Link href="https://smilingrobo.github.io/docs/" target="_blank">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              color: "white",
+            }}
+            className="hover:scale-105"
+          >
+            <FaBookOpen className="mr-2" />
+            Docs
+          </div>
+        </Link>
+        <Link href="/profile">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              color: "white",
+            }}
+            className="hover:scale-105"
+          >
+            <IoPerson className="mr-2" />
+            Profile
+          </div>
+        </Link>
       </nav>
 
       {/* Mobile Navigation */}
@@ -101,7 +128,27 @@ const Header = () => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
-                color:"white"
+                color: "white",
+              }}
+            >
+              <MdDashboard  className="mr-2" />
+              <Link href="/" legacyBehavior>
+                <a
+                  className="text-white-700 hover:text-gray-900"
+                  onClick={toggleMenu}
+                >
+                  Home
+                </a>
+              </Link>
+            </div>
+          </li>
+          <li>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                color: "white",
               }}
             >
               <FaRobot className="mr-2" />
@@ -114,18 +161,17 @@ const Header = () => {
                 </a>
               </Link>
             </div>
-            
           </li>
           <li>
-          <div
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
-                color:"white"
+                color: "white",
               }}
             >
-              <MdOutlineDataset className="mr-2"/>
+              <MdOutlineDataset className="mr-2" />
               <Link href="/datasets" legacyBehavior>
                 <a
                   className="text-white-700 hover:text-gray-900"
@@ -142,14 +188,11 @@ const Header = () => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
-                color:"white"
+                color: "white",
               }}
             >
               <FaBookOpen className="mr-2" />
-              <Link
-              href="https://smilingrobo.github.io/docs/"
-              legacyBehavior
-            >
+              <Link href="https://smilingrobo.github.io/docs/" legacyBehavior>
                 <a
                   className="text-white-700 hover:text-gray-900"
                   onClick={toggleMenu}
@@ -165,7 +208,7 @@ const Header = () => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
-                color:"white"
+                color: "white",
               }}
             >
               <IoPerson className="mr-2" />
@@ -179,8 +222,6 @@ const Header = () => {
               </Link>
             </div>
           </li>
-          
-          
         </ul>
       </nav>
     </header>

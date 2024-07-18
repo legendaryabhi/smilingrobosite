@@ -10,106 +10,101 @@ import "./markdown.css";
 import SEOHead from "@/components/SeoHead";
 
 import Header from "@/components/header";
-
+import Footer from "@/components/footer";
 
 export default function ProjectDetail({ project }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  
   if (!project) {
     return <div>Project not found</div>;
   }
 
   return (
-    <> <SEOHead
-    title={project.title+" | SmilingRobo "}
-    description={project.subtitle+" SmilingRobo opensource robotics project "}
-  />
-    
-    <div>
-      <Header/>
+    <>
+      {" "}
+      <SEOHead
+        title={project.title + " | SmilingRobo "}
+        description={
+          project.subtitle + " SmilingRobo opensource robotics project "
+        }
+      />
+      <div>
+        <Header />
 
-      <div className="bg-gray-800 p-12 font-mono">
-        <h1 className="text-4xl font-bold text-white">{project.title}</h1>
-        <p className="pb-3 whitespace-pre-line break-words text-gray-400">
-          By {project.userName}
-        </p>
-        <h2
-          className="mt-4 inline-block border border-gray-400 text-white px-3 py-1.5 rounded transition duration-300 ease-in-out hover:bg-gray-600"
-          style={{ fontSize: "1rem" }}
-        >
-          {project.tags}
-        </h2>
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8 mb-20">
-  {project.paper && (
-    <a
-      href={project.paper}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Paper
-    </a>
-  )}
-  {project.hardware && (
-    <a
-      href={project.hardware}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Hardware
-    </a>
-  )}
-  {project.dataset && (
-    <a
-      href={project.dataset}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Dataset
-    </a>
-  )}
-  {project.url && (
-    <a
-      href={project.url}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Code
-    </a>
-  )}
-  {project.website && (
-    <a
-      href={project.website}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Official Website
-    </a>
-  )}
-  {project.documentation && (
-    <a
-      href={project.documentation}
-      download
-      className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
-    >
-      Documentation
-    </a>
-  )}
-</div>
-
-      <div className="lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-4">
-        <div className="markdown-body text-white">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
+        <div className="bg-gray-800 lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-20 font-mono">
+          <h1 className="text-4xl font-bold text-white">{project.title}</h1>
+          <p className="pb-3 whitespace-pre-line break-words text-gray-400">
+            By {project.userName}
+          </p>
+          <h2
+            className="mt-4 inline-block border border-gray-400 text-white px-3 py-1.5 rounded transition duration-300 ease-in-out hover:bg-gray-600"
+            style={{ fontSize: "1rem" }}
           >
-            {project.description}
-          </ReactMarkdown>
+            {project.tags}
+          </h2>
         </div>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8 mb-20">
+          {project.paper && (
+            <a
+              href={project.paper}
+              download
+              className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
+            >
+              Paper
+            </a>
+          )}
+          {project.hardware && (
+            <a
+              href={project.hardware}
+              download
+              className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
+            >
+              Hardware
+            </a>
+          )}
+          {project.dataset && (
+            <a
+              href={project.dataset}
+              download
+              className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
+            >
+              Dataset
+            </a>
+          )}
+          {project.url && (
+            <a
+              href={project.url}
+              download
+              className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
+            >
+              Download Code
+            </a>
+          )}
+
+          {project.documentation && (
+            <a
+              href={project.documentation}
+              download
+              className="bg-green-800 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-600"
+            >
+              Documentation
+            </a>
+          )}
+        </div>
+
+        <div className="lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-4">
+          <div className="markdown-body text-white">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+            >
+              {project.description}
+            </ReactMarkdown>
+          </div>
+        </div>
+        <Footer/>
       </div>
-    </div>
     </>
   );
 }

@@ -30,7 +30,7 @@ export default function datasetsDetail({ datasets }) {
     <div>
       <Header/>
 
-      <div className="bg-cyan-950 p-12 font-mono">
+      <div className="bg-cyan-950 lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-20 font-mono">
         <h1 className="text-4xl font-bold text-white">{datasets.title}</h1>
         <p className="pb-3 whitespace-pre-line break-words text-gray-400">
           By {datasets.by}
