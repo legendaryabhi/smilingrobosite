@@ -117,9 +117,9 @@ export default function Home() {
                 Building Open Source Robotics
               </h2>
               <p  className="text-gray-300 text-base">Opensource Robotics Platform with opensource tools and resources. We're on a journey to advance and democratize robotics through opensource.</p>
-              <Link legacyBehavior href="/login" passHref>
+              <Link legacyBehavior href="/projects" passHref>
                 <a className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
-                  Login Now
+                  See Projects
                 </a>
               </Link>
             </div>
