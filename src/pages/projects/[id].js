@@ -12,6 +12,16 @@ import SEOHead from "@/components/SeoHead";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
+import { FaShareAlt } from "react-icons/fa";
+const handleShare = async () => {
+  const currentUrl = window.location.href;
+  navigator.share({
+        
+        url: currentUrl,
+      });
+   
+};
+
 export default function ProjectDetail({ project }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +42,9 @@ export default function ProjectDetail({ project }) {
         <Header />
 
         <div className="bg-gray-800 lg:px-60 md:px-40 sm:px-20 px-4 pb-20 pt-20 font-mono">
-          <h1 className="text-4xl font-bold text-white">{project.title}</h1>
+        
+        <h1 className="text-4xl font-bold text-white">{project.title}</h1>
+           
           <p className="pb-3 whitespace-pre-line break-words text-gray-400">
             By {project.userName}
           </p>
@@ -42,6 +54,15 @@ export default function ProjectDetail({ project }) {
           >
             {project.tags}
           </h2>
+          <div className="flex flex-row mt-8 space-x-2"> 
+          <p>Share this project to show your support</p>
+            <button
+              onClick={handleShare}
+              className="ml-4 text-white transition duration-300 ease-in-out hover:text-gray-400"
+            >
+              <FaShareAlt size={24} />
+            </button>
+            </div>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8 mb-20">
