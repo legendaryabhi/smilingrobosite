@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db , auth} from "../../firebaseConfig";
 import Link from "next/link";
-import { FaStar } from "react-icons/fa6";
+import { FaGithub, FaStar } from "react-icons/fa6";
 import { FaDownload } from "react-icons/fa";
 import { Circles } from "react-loader-spinner";
 import { IoIosTrendingUp } from "react-icons/io";
