@@ -10,7 +10,8 @@ import {
 } from "firebase/firestore";
 import { db , auth} from "../../firebaseConfig";
 import Link from "next/link";
-import { FaGithub, FaDownload } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
+import { FaDownload } from "react-icons/fa";
 import { Circles } from "react-loader-spinner";
 import { IoIosTrendingUp } from "react-icons/io";
 import { onAuthStateChanged } from "firebase/auth";
@@ -167,7 +168,7 @@ export default function Home() {
                               {truncateString(project.title, 20)}
                             </h2>
                             <div className="flex flex-row space-x-2">
-                              <FaGithub style={{ height: "24px" }} />
+                              <FaStar style={{ height: "24px" }} />
                               <p className="whitespace-pre-line break-words text-blue-400">
                                 {project.star}
                               </p>

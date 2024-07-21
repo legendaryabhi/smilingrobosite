@@ -12,7 +12,7 @@ import { db, auth, storage } from "../../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
-import { FaGithub } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
 import { IoIosTrendingUp } from "react-icons/io";
 import { Circles } from "react-loader-spinner";
 
@@ -367,7 +367,7 @@ export default function Projects() {
                       </p>
                     </div>
                     <div className="flex flex-row space-x-2 pb-3 px-4">
-                      <FaGithub style={{ height: "24px" }} />
+                      <FaStar style={{ height: "24px" }} />
                       <p className="whitespace-pre-line break-words text-blue-400">
                         {project.star}
                       </p>
