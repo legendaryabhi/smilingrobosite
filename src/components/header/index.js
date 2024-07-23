@@ -42,20 +42,7 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <nav className="hidden sm:flex space-x-4 ml-auto">
-        <Link href="/">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "row",
-              color: "white",
-            }}
-            className="hover:scale-105"
-          >
-            <MdDashboard className="mr-2 " />
-            Home
-          </div>
-        </Link>
+       
         <Link href="/projects">
           <div
             style={{
@@ -122,26 +109,7 @@ const Header = () => {
         style={{ backgroundColor: "#020011" }}
       >
         <ul className="flex flex-col items-center space-y-4 py-4">
-          <li>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "row",
-                color: "white",
-              }}
-            >
-              <MdDashboard  className="mr-2" />
-              <Link href="/" legacyBehavior>
-                <a
-                  className="text-white-700 hover:text-gray-900"
-                  onClick={toggleMenu}
-                >
-                  Home
-                </a>
-              </Link>
-            </div>
-          </li>
+          
           <li>
             <div
               style={{

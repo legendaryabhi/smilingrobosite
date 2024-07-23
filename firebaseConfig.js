@@ -1,7 +1,7 @@
 // firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -18,5 +18,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
+
+export const searchProjects = async (searchTerm) => {
+  const q = query(collection(db, "projects"), where("title", ">=", searchTerm), where("title", "<=", searchTerm + "\uf8ff"));
+  const querySnapshot = await getDocs(q);
+  const results = [];
+  querySnapshot.forEach((doc) => {
+    results.push({ id: doc.id, ...doc.data() });
+  });
+  return results;
+};
 
 export { auth, db, storage };
