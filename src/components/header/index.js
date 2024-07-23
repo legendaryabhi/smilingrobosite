@@ -113,52 +113,90 @@ const Header = () => {
       <nav
         className={`${
           isOpen ? "block" : "hidden"
-        } sm:hidden absolute top-16 left-0 w-full bg-gray-800 shadow-md z-10`}
+        } sm:hidden absolute top-16 left-0 w-full  shadow-md z-10`}
+        style={{ backgroundColor: "#020011" }}
       >
         <ul className="flex flex-col items-center space-y-4 py-4">
+          
           <li>
-            <Link href="/projects">
-              <div
-                className="text-white hover:text-gray-900"
-                onClick={toggleMenu}
-              >
-                <FaRobot className="mr-2" />
-                Projects
-              </div>
-            </Link>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                color: "white",
+              }}
+            >
+              <FaRobot className="mr-2" />
+              <Link href="/projects" legacyBehavior>
+                <a
+                  className="text-white-700 hover:text-gray-900"
+                  onClick={toggleMenu}
+                >
+                  Projects
+                </a>
+              </Link>
+            </div>
           </li>
           <li>
-            <Link href="/datasets">
-              <div
-                className="text-white hover:text-gray-900"
-                onClick={toggleMenu}
-              >
-                <MdOutlineDataset className="mr-2" />
-                Datasets
-              </div>
-            </Link>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                color: "white",
+              }}
+            >
+              <MdOutlineDataset className="mr-2" />
+              <Link href="/datasets" legacyBehavior>
+                <a
+                  className="text-white-700 hover:text-gray-900"
+                  onClick={toggleMenu}
+                >
+                  Datasets
+                </a>
+              </Link>
+            </div>
           </li>
           <li>
-            <Link href="https://smilingrobo.github.io/docs/">
-              <div
-                className="text-white hover:text-gray-900"
-                onClick={toggleMenu}
-              >
-                <FaBookOpen className="mr-2" />
-                Docs
-              </div>
-            </Link>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                color: "white",
+              }}
+            >
+              <FaBookOpen className="mr-2" />
+              <Link href="https://smilingrobo.github.io/docs/" legacyBehavior>
+                <a
+                  className="text-white-700 hover:text-gray-900"
+                  onClick={toggleMenu}
+                >
+                  Docs
+                </a>
+              </Link>
+            </div>
           </li>
           <li>
-            <Link href="/profile">
-              <div
-                className="text-white hover:text-gray-900"
-                onClick={toggleMenu}
-              >
-                <IoPerson className="mr-2" />
-                Profile
-              </div>
-            </Link>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                color: "white",
+              }}
+            >
+              <IoPerson className="mr-2" />
+              <Link href="/profile" legacyBehavior>
+                <a
+                  className="text-white-700 hover:text-gray-900"
+                  onClick={toggleMenu}
+                >
+                  Profile
+                </a>
+              </Link>
+            </div>
           </li>
         </ul>
       </nav>
