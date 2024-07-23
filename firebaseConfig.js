@@ -20,7 +20,7 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 export const searchProjects = async (searchTerm) => {
-  const q = query(collection(db, "projects"), where("title", ">=", searchTerm), where("title", "<=", searchTerm + "\uf8ff"));
+  const q = query(collection(db, "projects"), where("search_title", ">=", searchTerm), where("search_title", "<=", searchTerm + "\uf8ff"));
   const querySnapshot = await getDocs(q);
   const results = [];
   querySnapshot.forEach((doc) => {

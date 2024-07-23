@@ -81,8 +81,10 @@ export default function Projects() {
     }
 
     try {
+      const searchTitle = formData.title.toLowerCase(); 
       await addDoc(collection(db, "projects"), {
         ...formData,
+        search_title: searchTitle,
         timestamp: new Date(),
         done: "no",
         trending: 'no',
