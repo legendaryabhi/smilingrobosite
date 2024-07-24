@@ -55,7 +55,7 @@ export default function ProjectDetail({ project }) {
             {project.tags}
           </h2>
           <div className="flex flex-row mt-8 space-x-2"> 
-          <p>Share this project to show your support</p>
+          <p className="text-white">Share this project to show your support</p>
             <button
               onClick={handleShare}
               className="ml-4 text-white transition duration-300 ease-in-out hover:text-gray-400"

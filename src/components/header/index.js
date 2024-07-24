@@ -38,7 +38,7 @@ const Header = () => {
       <Logo />
 
       {/* Search Bar */}
-      <div className="relative w-full max-w-xs ml-4 mr-auto">
+      <div className="relative w-full max-w-xs ml-4 text-white mr-auto">
         <input
           type="text"
           placeholder="Search..."
@@ -51,7 +51,7 @@ const Header = () => {
             <p className="p-2 text-gray-400">search results</p>
             {searchResults.map((result) => (
               <Link legacyBehavior href={`/projects/${result.id}`} onClick={() => setSearchTerm("")}>
-              <div key={result.id} className="p-2 hover:bg-slate-900">
+              <div key={result.id} className="p-2 text-white hover:bg-slate-900">
                   <a>{result.title}</a>
               </div>
               </Link>
