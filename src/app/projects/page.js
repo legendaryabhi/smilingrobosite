@@ -87,7 +87,6 @@ export default function Projects() {
         search_title: searchTitle,
         timestamp: new Date(),
         done: "no",
-        trending: 'no',
         star: '', // default value until verification
       });
       setMessage(

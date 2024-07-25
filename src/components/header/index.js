@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "./logo";
@@ -20,10 +20,11 @@ const Header = () => {
   const handleSearch = async (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    if (term.length > 2) { // Minimum 3 characters to search
+    if (term.length > 2) {
+      // Minimum 3 characters to search
       try {
         const results = await searchProjects(term);
-        console.log('Search Results:', results); // Debugging line
+        console.log("Search Results:", results); // Debugging line
         setSearchResults(results.slice(0, 4)); // Limit to 4 results
       } catch (error) {
         console.error("Error searching projects:", error);
@@ -38,23 +39,32 @@ const Header = () => {
       <Logo />
 
       {/* Search Bar */}
+      {/* Search Bar */}
       <div className="relative w-full max-w-xs ml-4 text-white mr-auto">
         <input
           type="text"
           placeholder="Search..."
-          value={searchTerm.toLocaleLowerCase()}
+          value={searchTerm.toLowerCase()}
           onChange={handleSearch}
-          className="w-full px-3 py-2 rounded-md bg-slate-800  "
+          className="w-full px-3 py-2 rounded-md bg-slate-800"
         />
         {searchResults.length > 0 && (
           <ul className="absolute top-12 left-0 w-full bg-slate-800 cursor-pointer rounded-md shadow-lg z-10">
-            <p className="p-2 text-gray-400">search results</p>
+            <p className="p-2 text-gray-400">Search results</p>
             {searchResults.map((result) => (
-              <Link legacyBehavior href={`/projects/${result.id}`} onClick={() => setSearchTerm("")}>
-              <div key={result.id} className="p-2 text-white hover:bg-slate-900">
-                  <a>{result.title}</a>
-              </div>
-              </Link>
+              
+                <Link href={`/projects/${result.id}`} legacyBehavior>
+                  <a
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSearchResults([]);
+                    }}
+                  ><li key={result.id} className="p-2 text-white hover:bg-slate-900">
+                    {result.title}
+                    </li>
+                  </a>
+                </Link>
+              
             ))}
           </ul>
         )}
@@ -117,7 +127,6 @@ const Header = () => {
         style={{ backgroundColor: "#020011" }}
       >
         <ul className="flex flex-col items-center space-y-4 py-4">
-          
           <li>
             <div
               style={{
