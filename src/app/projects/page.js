@@ -85,6 +85,7 @@ export default function Projects() {
       await addDoc(collection(db, "projects"), {
         ...formData,
         search_title: searchTitle,
+        uid: user.uid,
         timestamp: new Date(),
         done: "no",
         star: '', // default value until verification

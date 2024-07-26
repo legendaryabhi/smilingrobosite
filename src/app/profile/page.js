@@ -1,72 +1,93 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../../firebaseConfig";
 import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
-  sendPasswordResetEmail,
   signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import Link from "next/link";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  setDoc
+} from "firebase/firestore";
+import { FaStar } from "react-icons/fa";
+import { IoIosTrendingUp } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
 export default function Profile() {
-  const [isLogin, setIsLogin] = useState(true); // Toggle between login and register
   const [user, setUser] = useState(null);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [projects, setProjects] = useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    subtitle: "",
+    tags: "",
+    url: "",
+    description: "",
+    userName: "",
+    documentation: ""
+  });
+  const [editingProjectId, setEditingProjectId] = useState(null);
+  const [formVisible, setFormVisible] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null); // Error state
-  const [showResetPassword, setShowResetPassword] = useState(false); // Reset password state
-  const router = useRouter(); // Make sure this is placed inside the component
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        setUser({ uid: user.uid, ...userDoc.data() });
+        setUser(user);
+        const q = query(collection(db, "projects"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        setProjects(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
       } else {
         setUser(null);
+        setProjects([]);
       }
     });
 
     return () => unsubscribe();
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleEdit = (project) => {
+    setFormData(project);
+    setEditingProjectId(project.id);
+    setFormVisible(true);
+  };
+
+  const handleDelete = async (projectId) => {
+    if (confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
+      await deleteDoc(doc(db, "projects", projectId));
+      setProjects(projects.filter((project) => project.id !== projectId));
+    }
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleRegister = async () => {
-    setLoading(true);
-    setError(null); // Reset error state
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-      const user = userCredential.user;
-      await setDoc(doc(db, "users", user.uid), { name: formData.name, email: formData.email });
-      setUser({ uid: user.uid, name: formData.name, email: formData.email });
-    } catch (error) {
-      console.error("Error registering:", error);
-      setError(error.message); // Set error message
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (editingProjectId) {
+      await updateDoc(doc(db, "projects", editingProjectId), formData);
+      setProjects(projects.map((project) =>
+        project.id === editingProjectId ? { ...project, ...formData } : project
+      ));
+      setFormVisible(false);
+      alert("Your edits are saved!");
     }
-    setLoading(false);
-  };
-
-  const handleLogin = async () => {
-    setLoading(true);
-    setError(null); // Reset error state
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-      const user = userCredential.user;
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      setUser({ uid: user.uid, ...userDoc.data() });
-    } catch (error) {
-      console.error("Error logging in:", error);
-      setError(error.message); // Set error message
-    }
-    setLoading(false);
   };
 
   const handleLogout = async () => {
@@ -75,15 +96,50 @@ export default function Profile() {
     router.push("/");
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleRegister = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), { name: formData.name, email: formData.email });
+      setUser({ uid: user.uid, name: formData.name, email: formData.email });
+    } catch (error) {
+      console.error("Error registering:", error);
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+ 
+  const handleLogin = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      setUser({ uid: user.uid, ...userDoc.data() });
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
   const handlePasswordReset = async () => {
     setLoading(true);
-    setError(null); // Reset error state
+    setError(null);
     try {
       await sendPasswordResetEmail(auth, formData.email);
       alert("Password reset email sent!");
     } catch (error) {
       console.error("Error sending password reset email:", error);
-      setError(error.message); // Set error message
+      setError(error.message);
     }
     setLoading(false);
   };
@@ -98,7 +154,7 @@ export default function Profile() {
             {error && <div className="mb-4 text-red-500">{error}</div>}
             {!isLogin && (
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-white-700 text-white ">Name</label>
+                <label htmlFor="name" className="block text-sm font-medium text-white">Name</label>
                 <input
                   type="text"
                   name="name"
@@ -110,7 +166,7 @@ export default function Profile() {
               </div>
             )}
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-white-700">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-white">Email</label>
               <input
                 type="email"
                 name="email"
@@ -121,7 +177,7 @@ export default function Profile() {
               />
             </div>
             <div className="mb-4 relative">
-              <label htmlFor="password" className="block text-sm font-medium text-white-700">Password</label>
+              <label htmlFor="password" className="block text-sm font-medium text-white">Password</label>
               <input
                 type="password"
                 name="password"
@@ -159,22 +215,139 @@ export default function Profile() {
               >
                 {isLogin ? "Login" : "Register"}
               </button>
-              <button onClick={() => { setIsLogin(!isLogin); setShowResetPassword(false); }} className="text-blue-500 hover:underline">
+              <button
+                onClick={() => { setIsLogin(!isLogin); setShowResetPassword(false); }}
+                className="text-blue-500 hover:underline"
+              >
                 {isLogin ? "Create an account" : "Already have an account?"}
               </button>
             </div>
           </div>
         ) : (
-          <div className="p-6 rounded shadow-md w-full max-w-md text-white text-center">
-            <h2 className="text-2xl font-bold mb-4 ">Welcome, {user.name}</h2>
-            <p className="mb-4">Email: {user.email}</p>
-            
-          </div>
-        )}
-        {user && (
-          <button onClick={handleLogout} className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 mt-4">
-            Logout
-          </button>
+          <>
+            <div className="p-6 rounded shadow-md w-full max-w-md text-white text-center">
+              <h2 className="text-2xl font-bold mb-4">Welcome, {user.name || "User"}</h2>
+              <p className="mb-4">Email: {user.email}</p>
+            </div>
+            <button onClick={handleLogout} className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 mt-4">
+              Logout
+            </button>
+            <div className="mt-6 w-full">
+              <h1 className="text-white mb-8 mt-8">Your Projects</h1>
+              {projects.map((project) => (
+                <div key={project.id} className="w-full cursor-pointer sm:w-full sm:h-20 h-32 rounded-lg text-white shadow-md mb-12 bg-emerald-800 hover:bg-gray-900 transition-colors flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-start px-4 py-2">
+                      <h2 className="text-lg text-white-700">{project.title}</h2>
+                      
+                    </div>
+                    <p className="px-4 py-1 whitespace-pre-line break-words text-whitesmoke">{project.subtitle}</p>
+                    <div className="flex flex-row justify-end px-4 py-2">
+                      <button onClick={() => handleEdit(project)} className="text-blue-500 hover:underline mr-4">Edit</button>
+                      <button onClick={() => handleDelete(project.id)} className="text-red-500 hover:underline">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {formVisible && (
+              <div className="bg-gray-800 p-6 rounded-lg mb-6 sm:w-2/3 w-full">
+                <h2 className="text-xl font-bold text-white mb-4">Edit Your Project</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-white">Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                      style={{ backgroundColor: "#020011" }}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Subtitle</label>
+                    <input
+                      type="text"
+                      name="subtitle"
+                      value={formData.subtitle}
+                      onChange={handleChange}
+                      style={{ backgroundColor: "#020011" }}
+                      className="w-full p-2 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Tag</label>
+                    <input
+                      type="text"
+                      name="tags"
+                      value={formData.tags}
+                      style={{ backgroundColor: "#020011" }}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Code Link</label>
+                    <input
+                      type="url"
+                      name="url"
+                      value={formData.url}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                      style={{ backgroundColor: "#020011" }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Username</label>
+                    <input
+                      type="text"
+                      name="userName"
+                      value={formData.userName}
+                      style={{ backgroundColor: "#020011" }}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Documentation</label>
+                    <input
+                      type="url"
+                      name="documentation"
+                      value={formData.documentation}
+                      style={{ backgroundColor: "#020011" }}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-white">Description</label>
+                    <textarea
+                      name="description"
+                      style={{ backgroundColor: "#020011" }}
+                      value={formData.description}
+                      onChange={handleChange}
+                      className="w-full p-2 rounded"
+                      required
+                    ></textarea>
+                  </div>
+                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setFormVisible(false)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded mt-4 ml-4"
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </div>
+            )}
+          </>
         )}
       </main>
     </div>
