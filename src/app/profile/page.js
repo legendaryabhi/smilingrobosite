@@ -86,7 +86,7 @@ export default function Profile() {
         project.id === editingProjectId ? { ...project, ...formData } : project
       ));
       setFormVisible(false);
-      alert("Your edits are saved!");
+      alert("Your edits are saved! and will be uploaded after verifying");
     }
   };
 
